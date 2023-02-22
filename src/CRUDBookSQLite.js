@@ -15,7 +15,7 @@ const db = new sqlite3.Database('./Database/Book.sqlite');
 app.use(express.json());
 
 // create books table if it doesn't exist
-db.run(`CREATE TABLE IF NOT EXISTS books (
+db.run(`CREATE TABLE IF NOT EXISTS books ( 
     id INTEGER PRIMARY KEY,
     title TEXT,
     author TEXT
@@ -64,7 +64,8 @@ app.post('/books',(req, res) => {
 // route to update a book
 app.put('/books/:id' , (req, res) => {
     const book = req.body;
-    db.run('UPDATE books SET title = ? , author = ? WHERE id = ?' , book.title , book.author, req.params.id, function(err) {
+    db.run('UPDATE books SET title = ? , author = ? WHERE id = ?' , book.title , book.author, req.params.id, 
+    function(err) { 
         if (err) {
             res.status(500).send(err);
         } else {
@@ -75,9 +76,10 @@ app.put('/books/:id' , (req, res) => {
 
 // route to delete a book
 app.delete('/books/:id' , (req, res) => {
-    db.run('DELETE FROM books WHERE id = ?' , req.params.id , function(err) {
+    db.run('DELETE FROM books WHERE id = ?' , req.params.id , 
+    function(err) {
         if (err) {
-            res.status(500).send(err);
+            res.status(404).send(err); // check
         } else {
             res.send({});
         }
