@@ -4,11 +4,19 @@
 // Test with Postman
 
 const express = require('express');
+var bodyParser = require('body-parser');
 const Sequelize = require('sequelize');
 const app = express();
 
 // parse incoming requests
 app.use(express.json());
+app.set('view engine','ejs');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended : false}));
+app.use("/", require("./AxiosNodeHtml"));
+
+
+app.get("/", (req, res) => res.send("Hello World! Server Run"));
 
 // create aconnection to the Database
 const sequelize = new Sequelize ('database' , 'username' , 'password' , {
