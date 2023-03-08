@@ -18,28 +18,28 @@ const sequelize = new Sequelize ('database' , 'username' , 'password' , {
 });
 
 //define the Book model
-const Book = sequelize.define('book' , {
+const Book = sequelize.define('book' , { //book table
     id: {
         type: Sequelize.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
+        autoIncrement: true, // auto a.i
+        primaryKey: true // pk
     },
     title: {
-        type: Sequelize.STRING,
-        allowNull: false
+        type: Sequelize.STRING, // string
+        allowNull: false // !
     },
     author: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false // !
     }
 });
 
 // create the books table if it doesn't exist
-sequelize.sync();
+sequelize.sync(); // check table
 
 // route to gel all books
-app.get('/books' , (req,res) => {
-    Book.findAll().then(books => {
+app.get('/books' , (req,res) => {  // url 
+    Book.findAll().then(books => { 
         res.json(books);
     }).catch(err => {
         res.status(500).send(err);
@@ -50,13 +50,13 @@ app.get('/books' , (req,res) => {
 app.get('/books/:id' , (req,res) => {
     
     Book.findByPk (parseInt(req.params.id)).then(book => {
-        if (!book) {
+        if (!book) { 
             res.status(404).send('Book not found');
         } else {
             res.json(book);
         }
     }).catch(err => {
-        res.status(500).send(err);
+        res.status(500).send(err); 
     });
 });
 
@@ -76,7 +76,7 @@ app.put('/books/:id' , (req , res) => {
             res.status(404).send('Book not found');
         } else {
             book.update(req.body).then(() => {
-                res.send(book);
+                res.send(book); // update back
             }).catch(err => {
                 res.status(500).send(err);
             });
